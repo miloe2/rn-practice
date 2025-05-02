@@ -2,28 +2,61 @@ import { Tabs } from 'expo-router';
 import React from 'react';
 import { Platform } from 'react-native';
 
-import { HapticTab } from '@/components/HapticTab';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-import TabBarBackground from '@/components/ui/TabBarBackground';
 import { Colors } from '@/constants/Colors';
+import {
+  Ionicons,
+  MaterialCommunityIcons,
+} from '@expo/vector-icons';
 
 export default function TabLayout() {
-
   return (
     <Tabs
       screenOptions={{
+        tabBarActiveTintColor: Colors.ORANGE_600,
         headerShown: false,
-      }}>
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
+          title: '홈',
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={focused ? 'home-sharp' : 'home-outline'}
+              color={color}
+              size={24}
+            />
+          ),
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="my"
         options={{
-          title: 'Explore',
+          title: '마이',
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={
+                focused ? 'person-sharp' : 'person-outline'
+              }
+              color={color}
+              size={24}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="setting"
+        options={{
+          title: '설정',
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={
+                focused ? 'settings' : 'settings-outline'
+              }
+              color={color}
+              size={24}
+            />
+          ),
         }}
       />
     </Tabs>
