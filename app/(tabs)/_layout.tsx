@@ -2,7 +2,7 @@ import { Tabs } from 'expo-router';
 import React from 'react';
 import { Platform } from 'react-native';
 
-import { Colors } from '@/constants/Colors';
+import { COLORS } from '@/constants/Colors';
 import {
   Ionicons,
   MaterialCommunityIcons,
@@ -12,7 +12,7 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors.ORANGE_600,
+        tabBarActiveTintColor: COLORS.ORANGE_600,
         headerShown: false,
       }}
     >

@@ -5,16 +5,21 @@ import {
   Text,
 } from 'react-native';
 import CustomButton from '@/components/CustomButton';
+import { router } from 'expo-router';
 
 export default function HomeScreen() {
   return (
     <SafeAreaView>
       <View>
-        <Text className="bg-red-500 text-blue-500">
-          '/' 스크린
-        </Text>
-        <CustomButton label="button입니다" size='large' intent='filled'/>
-        <CustomButton label="button입니다22" size='medium' intent='outline' onPress={() => {console.log('clicked')}}/>
+        <Text className="text-blue-500">'/' 스크린</Text>
+        <CustomButton
+          label="button입니다"
+          size="large"
+          variant="filled"
+          onPress={() => {
+            router.push('/auth');
+          }}
+        />
       </View>
     </SafeAreaView>
   );
