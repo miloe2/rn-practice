@@ -1,80 +1,73 @@
 import React from 'react';
-import { Pressable, StyleSheet, Text } from 'react-native';
-import { Colors } from '@/constants/Colors';
+import {
+  Pressable,
+  PressableProps,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import { COLORS } from '@/constants/Colors';
 
-interface CustomButtonProps {
+interface CustomButtonProps extends PressableProps {
   label: string;
   size?: 'medium' | 'large';
-  intent?: 'filled' | 'outline';
-  onPress?: () => void;
+  variant?: 'filled' | 'outline';
 }
-
-const styles = StyleSheet.create({
-  base: {
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 8,
-  },
-  filledButton: {
-    backgroundColor: Colors.ORANGE_600,
-  },
-  filledText: {
-    color: Colors.WHITE,
-    fontWeight: 'bold',
-  },
-  outlineButton: {
-    backgroundColor: '#e5e7eb',
-    borderWidth: 1,
-    borderColor: Colors.ORANGE_600,
-  },
-  outlineText: {
-    color: Colors.BLACK,
-  },
-  large: {
-    height: 32,
-  },
-  medium: {
-    height: 24,
-  },
-  pressStyle: {
-    opacity: 0.7,
-  },
-});
-
-const buttonStyleMap = {
-  filled: {
-    container: styles.filledButton,
-    text: styles.filledText,
-  },
-  outline: {
-    container: styles.outlineButton,
-    text: styles.outlineText,
-  },
-};
 
 const CustomButton = ({
   label,
   size = 'large',
-  intent = 'filled',
-  onPress,
+  variant = 'filled',
+  ...props
 }: CustomButtonProps) => {
   return (
-    <Pressable
-      style={({ pressed }) => [
-        styles.base,
-        styles[size],
-        buttonStyleMap[intent].container,
-        pressed && styles.pressStyle,
-      ]}
-      onPress={onPress}
-    >
-      <Text style={buttonStyleMap[intent].text}>
-        {label}
-      </Text>
+    <Pressable {...props}>
+      {({ pressed }) => (
+        <View
+          style={[
+            styles.container,
+            styles[variant],
+            styles[size],
+            pressed && styles.pressed,
+          ]}
+        >
+          <Text style={styles[variant]}>{label}</Text>
+        </View>
+      )}
     </Pressable>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  filled: {
+    backgroundColor: COLORS.ORANGE_600,
+    fontSize: 14,
+    color: COLORS.WHITE,
+    fontWeight: 'bold',
+  },
+  outline: {
+    backgroundColor: COLORS.GRAY_100,
+    borderColor: COLORS.ORANGE_600,
+    // borderWidth: 1,
+    fontSize: 14,
+  },
+  large: {
+    // width: '100%',
+    height: 44,
+  },
+  medium: {
+    // width: '100%',
+    height: 32,
+  },
+  pressed: {
+    opacity: 0.9,
+    // transform: [{ scale: 0.98 }],
+  },
+});
 
 export default CustomButton;
