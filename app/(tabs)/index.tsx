@@ -6,11 +6,13 @@ import {
 } from 'react-native';
 import CustomButton from '@/components/CustomButton';
 import { router } from 'expo-router';
+import FeedItem from '@/components/FeedItem';
 
 export default function HomeScreen() {
   return (
     <SafeAreaView>
-      <View>
+      <FeedItem/>
+      {/* <View>
         <Text className="text-blue-500">'/' 스크린</Text>
         <CustomButton
           label="button입니다"
@@ -20,7 +22,7 @@ export default function HomeScreen() {
             router.push('/auth');
           }}
         />
-      </View>
+      </View> */}
     </SafeAreaView>
   );
 }
