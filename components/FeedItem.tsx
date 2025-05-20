@@ -10,15 +10,26 @@ import {
   Octicons,
   MaterialCommunityIcons,
 } from '@expo/vector-icons';
+import { Post } from '@/app/types';
+import Profile from './Profile';
+interface FeedItemProps {
+  post: Post;
+}
 
-const FeedItem = () => {
+const FeedItem = ({ post }: FeedItemProps) => {
   const isLike = true;
   return (
     <View style={styles.container}>
       <View style={styles.contentContainer}>
-        <Text style={styles.title}>게시글 제목</Text>
-        <Text style={styles.description}>
-          게시글 내용용
+      <Profile
+        nickname={post.author.nickname}
+        imageUri={post.author.imageUri}
+        createdAt={post.createdAt}
+        onPress={() => console.log('hi')}
+      />
+        <Text style={styles.title}>{post.title}</Text>
+        <Text numberOfLines={3} style={styles.description}>
+          {post.description}
         </Text>
       </View>
       <View style={styles.menuContainer}>
