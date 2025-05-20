@@ -1,3 +1,4 @@
+import { router, useFocusEffect } from 'expo-router';
 import {
   SafeAreaView,
   View,
@@ -6,6 +7,9 @@ import {
 
 
 export default function MyScreen() {
+  useFocusEffect(() => {
+    router.replace('/auth');
+  })
   return (
     <SafeAreaView>
       <View>

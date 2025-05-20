@@ -28,7 +28,10 @@ const AuthLayout = () => {
           headerLeft: () => (
             <Pressable
               onPress={() => router.replace('/')}
-              style={{ paddingRight: 5 }}
+              style={{
+                flex: 1,
+                paddingLeft: 10,
+              }}
             >
               <Foundation
                 name="home"
