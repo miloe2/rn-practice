@@ -8,8 +8,23 @@ import {
 import React, { useState } from 'react';
 import InputField from '@/components/InputField';
 import FixedBottomCTA from '@/components/FixedBottomCTA';
+import { FormProvider, useForm } from 'react-hook-form';
+import CustomInput from '@/components/CustomInput';
+
+type FormValues = {
+  email: string;
+  password: string;
+  passwordConfirm: string;
+};
 
 const SignupScreen = () => {
+  const signupForm = useForm<FormValues>({
+    defaultValues: {
+      email: '',
+      password: '',
+      passwordConfirm: '',
+    },
+  });
   const [signupValues, setSignupValues] = useState({
     email: '',
     password: '',
@@ -29,47 +44,41 @@ const SignupScreen = () => {
     }
     console.log('signupValues', signupValues);
   };
-  const handleChangeInput = (
-    text: string,
-    name: string
-  ) => {
-    setSignupValues((prev) => ({
-      ...prev,
-      [name]: text,
-    }));
+
+  const onSubmit = (formValues: FormValues) => {
+    console.log(formValues);
   };
+
   return (
-    <>
+    <FormProvider {...signupForm}>
       <View style={{ flex: 1, gap: 16, padding: 10 }}>
-        <InputField
-          label="이메일"
-          placeholder="이메일을 입력해주세요"
-          value={signupValues.email}
-          onChangeText={(text) =>
-            handleChangeInput(text, 'email')
-          }
-          error={error.email}
+        <CustomInput
+          name="email"
+          config={{
+            label: '이메일',
+            placeholder: '이메일을 입력해주세요',
+          }}
         />
-        <InputField
-          label="비밀번호"
-          placeholder="비밀번호를 입력해주세요"
-          onChangeText={(text) =>
-            handleChangeInput(text, 'password')
-          }
+        <CustomInput
+          name="password"
+          config={{
+            label: '비밀번호',
+            placeholder: '비밀번호를 입력해주세요',
+          }}
         />
-        <InputField
-          label="비밀번호 확인"
-          placeholder="비밀번호를 입력해주세요"
-          onChangeText={(text) =>
-            handleChangeInput(text, 'passwordConfirm')
-          }
+        <CustomInput
+          name="passwordConfirm"
+          config={{
+            label: '비밀번호 확인',
+            placeholder: '비밀번호를 입력해주세요',
+          }}
         />
       </View>
       <FixedBottomCTA
         label="회원가입"
-        onPress={handleSumbit}
+        onPress={signupForm.handleSubmit(onSubmit)}
       />
-    </>
+    </FormProvider>
   );
 };
 
