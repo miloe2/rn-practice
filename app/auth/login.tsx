@@ -33,11 +33,13 @@ const LoginScreen = () => {
     <FormProvider {...loginForm}>
       <View style={{ flex: 1, gap: 16, padding: 10 }}>
         <CustomInput
+          autoFocus
           name="email"
           label="이메일"
           placeholder="이메일을 입력해주세요"
-          inputMode='email'
-          focusItem='password'
+          inputMode="email"
+          focusItem="password"
+          submitBehavior="submit"
           rules={{
             validate: (data) => {
               if (data.length === 0) {
@@ -57,6 +59,7 @@ const LoginScreen = () => {
           label="비밀번호"
           placeholder="비밀번호를 입력해주세요"
           secureTextEntry
+          submitBehavior="blurAndSubmit"
           rules={{
             validate: (data) => {
               if (data.length < 8) {

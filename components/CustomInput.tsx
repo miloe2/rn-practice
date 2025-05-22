@@ -43,9 +43,8 @@ const CustomInput = ({
           onChangeText={onChange}
           error={error?.message}
           returnKeyType="next"
-          submitBehavior="submit"
           onSubmitEditing={() => {
-            setFocus('password');
+            focusItem && setFocus(focusItem);
           }}
           {...rest}
         />

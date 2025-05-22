@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   filled: {
-    backgroundColor: COLORS.GRAY_300,
+    backgroundColor: COLORS.GRAY_100,
   },
   standard: {},
   outline: {},
