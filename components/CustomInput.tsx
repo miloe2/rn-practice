@@ -1,33 +1,53 @@
-import { StyleSheet, Text, View } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TextInputProps,
+  View,
+} from 'react-native';
 import React from 'react';
 import {
   Controller,
+  RegisterOptions,
   useFormContext,
 } from 'react-hook-form';
 import InputField from './InputField';
 
-interface CustomInputProps {
+interface CustomInputProps extends TextInputProps {
   name: string;
-  config: {
-    label: string;
-    placeholder: string;
-  };
+  label: string;
+  focusItem?: string;
+  rules?: RegisterOptions;
 }
 
 const CustomInput = ({
   name,
-  config,
+  label,
+  focusItem,
+  rules,
+  ...rest
 }: CustomInputProps) => {
-  const { control } = useFormContext();
+  const { control, setFocus } = useFormContext();
   return (
     <Controller
       name={name}
       control={control}
-      render={({ field: { onChange, value } }) => (
+      rules={rules}
+      render={({
+        field: { onChange, value, ref },
+        fieldState: { error },
+      }) => (
         <InputField
+          ref={ref}
           value={value}
+          label={label}
           onChangeText={onChange}
-          {...config}
+          error={error?.message}
+          returnKeyType="next"
+          submitBehavior="submit"
+          onSubmitEditing={() => {
+            setFocus('password');
+          }}
+          {...rest}
         />
       )}
     />

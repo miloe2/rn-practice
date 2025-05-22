@@ -5,7 +5,7 @@ import {
   TextInputProps,
   View,
 } from 'react-native';
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { COLORS } from '@/constants/Colors';
 
 interface InputFieldProps extends TextInputProps {
@@ -14,34 +14,35 @@ interface InputFieldProps extends TextInputProps {
   variant?: 'filled' | 'standard' | 'outline';
 }
 
-const InputField = ({
-  label,
-  variant = 'filled',
-  error,
-  ...props
-}: InputFieldProps) => {
-  return (
-    <View>
-      {label && <Text style={styles.label}>{label}</Text>}
-      <View
-        style={[
-          styles.container,
-          styles[variant],
-          error ? styles.errorInput : null,
-        ]}
-      >
-        <TextInput
-          placeholderTextColor={COLORS.GRAY_500}
-          style={styles.input}
-          {...props}
-        />
+const InputField = forwardRef<TextInput, InputFieldProps>(
+  ({ label, variant = 'filled', error, ...props }, ref) => {
+    return (
+      <View>
+        {label && <Text style={styles.label}>{label}</Text>}
+        <View
+          style={[
+            styles.container,
+            styles[variant],
+            error ? styles.errorInput : null,
+          ]}
+        >
+          <TextInput
+            ref={ref}
+            placeholderTextColor={COLORS.GRAY_500}
+            style={styles.input}
+            autoCapitalize="none"
+            autoCorrect={false}
+            spellCheck={false}
+            {...props}
+          />
+        </View>
+        {error ? (
+          <Text style={styles.error}>{error}</Text>
+        ) : null}
       </View>
-      {error ? (
-        <Text style={styles.error}>{error}</Text>
-      ) : null}
-    </View>
-  );
-};
+    );
+  }
+);
 
 export default InputField;
 

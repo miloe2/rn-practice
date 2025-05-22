@@ -34,16 +34,35 @@ const LoginScreen = () => {
       <View style={{ flex: 1, gap: 16, padding: 10 }}>
         <CustomInput
           name="email"
-          config={{
-            label: '이메일',
-            placeholder: '이메일을 입력해주세요',
+          label="이메일"
+          placeholder="이메일을 입력해주세요"
+          inputMode='email'
+          focusItem='password'
+          rules={{
+            validate: (data) => {
+              if (data.length === 0) {
+                return '이메일을 입력해주세요.';
+              }
+              if (
+                !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data)
+              ) {
+                console.log(data);
+                return '올바른 이메일 형식이 아닙니다.';
+              }
+            },
           }}
         />
         <CustomInput
           name="password"
-          config={{
-            label: '비밀번호',
-            placeholder: '비밀번호를 입력해주세요',
+          label="비밀번호"
+          placeholder="비밀번호를 입력해주세요"
+          secureTextEntry
+          rules={{
+            validate: (data) => {
+              if (data.length < 8) {
+                return '8자 이상으로 해주세요.';
+              }
+            },
           }}
         />
       </View>

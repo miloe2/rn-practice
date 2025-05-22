@@ -8,7 +8,11 @@ import {
 import React, { useState } from 'react';
 import InputField from '@/components/InputField';
 import FixedBottomCTA from '@/components/FixedBottomCTA';
-import { FormProvider, useForm } from 'react-hook-form';
+import {
+  FormProvider,
+  useForm,
+  useWatch,
+} from 'react-hook-form';
 import CustomInput from '@/components/CustomInput';
 
 type FormValues = {
@@ -25,25 +29,9 @@ const SignupScreen = () => {
       passwordConfirm: '',
     },
   });
-  const [signupValues, setSignupValues] = useState({
-    email: '',
-    password: '',
-    passwordConfirm: '',
-  });
-  const [error, setError] = useState({
-    email: '',
-    password: '',
-    passwordConfirm: '',
-  });
-  const handleSumbit = () => {
-    if (signupValues.email.length === 0) {
-      setError((prev) => ({
-        ...prev,
-        email: '이메일을 입력해주세요',
-      }));
-    }
-    console.log('signupValues', signupValues);
-  };
+
+  const { control } = signupForm;
+  const password = useWatch({ control, name: 'password' });
 
   const onSubmit = (formValues: FormValues) => {
     console.log(formValues);
@@ -54,23 +42,45 @@ const SignupScreen = () => {
       <View style={{ flex: 1, gap: 16, padding: 10 }}>
         <CustomInput
           name="email"
-          config={{
-            label: '이메일',
-            placeholder: '이메일을 입력해주세요',
+          label="이메일"
+          placeholder="이메일을 입력해주세요"
+          rules={{
+            validate: (data) => {
+              if (data.length === 0) {
+                return '이메일을 입력해주세요.';
+              }
+              if (
+                !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data)
+              ) {
+                return '올바른 이메일 형식이 아닙니다.';
+              }
+            },
           }}
         />
         <CustomInput
           name="password"
-          config={{
-            label: '비밀번호',
-            placeholder: '비밀번호를 입력해주세요',
+          label="비밀번호"
+          placeholder="비밀번호를 입력해주세요"
+          secureTextEntry
+          rules={{
+            validate: (data) => {
+              if (data.length < 8) {
+                return '비밀번호는 8글자 이상이여야합니다.';
+              }
+            },
           }}
         />
         <CustomInput
-          name="passwordConfirm"
-          config={{
-            label: '비밀번호 확인',
-            placeholder: '비밀번호를 입력해주세요',
+          name="password"
+          label="비밀번호"
+          placeholder="비밀번호를 입력해주세요"
+          secureTextEntry
+          rules={{
+            validate: (data) => {
+              if (password !== data) {
+                return '비밀번호가 일치하지 않습니다';
+              }
+            },
           }}
         />
       </View>
@@ -82,16 +92,6 @@ const SignupScreen = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-  },
-  fixed: {
-    position: 'absolute',
-    bottom: 0,
-    width: '100%',
-  },
-});
+const styles = StyleSheet.create({});
 
 export default SignupScreen;
