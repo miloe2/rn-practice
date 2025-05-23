@@ -41,6 +41,7 @@ const SignupScreen = () => {
     <FormProvider {...signupForm}>
       <View style={{ flex: 1, gap: 16, padding: 10 }}>
         <CustomInput
+          autoFocus
           name="email"
           label="이메일"
           placeholder="이메일을 입력해주세요"

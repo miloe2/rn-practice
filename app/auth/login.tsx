@@ -1,10 +1,4 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  Image,
-  StyleSheet,
-} from 'react-native';
+import { View, Text, SafeAreaView, Image, StyleSheet } from 'react-native';
 import React from 'react';
 import InputField from '@/components/InputField';
 import { router } from 'expo-router';
@@ -20,13 +14,7 @@ const LoginScreen = () => {
     },
   });
 
-  const onSubmit = ({
-    email,
-    password,
-  }: {
-    email: string;
-    password: string;
-  }) => {
+  const onSubmit = ({ email, password }: { email: string; password: string }) => {
     console.log(email, password);
   };
   return (
@@ -45,9 +33,7 @@ const LoginScreen = () => {
               if (data.length === 0) {
                 return '이메일을 입력해주세요.';
               }
-              if (
-                !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data)
-              ) {
+              if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data)) {
                 console.log(data);
                 return '올바른 이메일 형식이 아닙니다.';
               }
