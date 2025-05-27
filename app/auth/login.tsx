@@ -5,8 +5,10 @@ import { router } from 'expo-router';
 import FixedBottomCTA from '@/components/FixedBottomCTA';
 import { FormProvider, useForm } from 'react-hook-form';
 import CustomInput from '@/components/CustomInput';
+import useAuth from '@/hooks/queries/useAuth';
 
 const LoginScreen = () => {
+  const { loginMutation } = useAuth();
   const loginForm = useForm({
     defaultValues: {
       email: '',
@@ -15,7 +17,7 @@ const LoginScreen = () => {
   });
 
   const onSubmit = ({ email, password }: { email: string; password: string }) => {
-    console.log(email, password);
+    loginMutation.mutate({ email, password });
   };
   return (
     <FormProvider {...loginForm}>
@@ -46,13 +48,13 @@ const LoginScreen = () => {
           placeholder="비밀번호를 입력해주세요"
           secureTextEntry
           submitBehavior="blurAndSubmit"
-          rules={{
-            validate: (data) => {
-              if (data.length < 8) {
-                return '8자 이상으로 해주세요.';
-              }
-            },
-          }}
+          // rules={{
+          //   validate: (data) => {
+          //     if (data.length < 8) {
+          //       return '8자 이상으로 해주세요.';
+          //     }
+          //   },
+          // }}
         />
       </View>
       <FixedBottomCTA
