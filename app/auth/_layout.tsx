@@ -30,7 +30,7 @@ const AuthLayout = () => {
               onPress={() => router.replace('/')}
               style={{
                 flex: 1,
-                paddingLeft: 10,
+                // paddingLeft: 10,
               }}
             >
               <Foundation

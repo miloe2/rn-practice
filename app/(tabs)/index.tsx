@@ -1,31 +1,40 @@
-import {
-  Image,
-  SafeAreaView,
-  View,
-  Text,
-} from 'react-native';
-import CustomButton from '@/components/CustomButton';
-import { router } from 'expo-router';
-import FeedItem from '@/components/FeedItem';
+import { Pressable, SafeAreaView, StyleSheet } from 'react-native';
 import FeedList from '@/components/FeedList';
 import { COLORS } from '@/constants/Colors';
+import useAuth from '@/hooks/queries/useAuth';
+import { Ionicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 
 export default function HomeScreen() {
+  const { auth } = useAuth();
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.WHITE }}>
       <FeedList />
-      {/* <FeedItem post={post} /> */}
-      {/* <View>
-        <Text className="text-blue-500">'/' 스크린</Text>
-        <CustomButton
-          label="button입니다"
-          size="large"
-          variant="filled"
-          onPress={() => {
-            router.push('/auth');
-          }}
-        />
-      </View> */}
+      <Pressable 
+        style={styles.writeButton} 
+        onPress={() => router.push('/post/write')}>
+        <Ionicons name="pencil" size={32} color={COLORS.WHITE} />
+      </Pressable>
+      {/* {!auth.id && (
+        
+      )} */}
     </SafeAreaView>
   );
 }
+const styles = StyleSheet.create({
+  writeButton: {
+    position: 'absolute',
+    bottom: 16,
+    right: 16,
+    backgroundColor: COLORS.ORANGE_600,
+    height: 64,
+    width: 64,
+    borderRadius: 32,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: COLORS.BLACK,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
+  },
+});

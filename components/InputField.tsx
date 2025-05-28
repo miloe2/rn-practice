@@ -1,10 +1,4 @@
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  TextInputProps,
-  View,
-} from 'react-native';
+import { StyleSheet, Text, TextInput, TextInputProps, View } from 'react-native';
 import React, { forwardRef } from 'react';
 import { COLORS } from '@/constants/Colors';
 
@@ -14,35 +8,32 @@ interface InputFieldProps extends TextInputProps {
   variant?: 'filled' | 'standard' | 'outline';
 }
 
-const InputField = forwardRef<TextInput, InputFieldProps>(
-  ({ label, variant = 'filled', error, ...props }, ref) => {
-    return (
-      <View>
-        {label && <Text style={styles.label}>{label}</Text>}
-        <View
-          style={[
-            styles.container,
-            styles[variant],
-            error ? styles.errorInput : null,
-          ]}
-        >
-          <TextInput
-            ref={ref}
-            placeholderTextColor={COLORS.GRAY_500}
-            style={styles.input}
-            autoCapitalize="none"
-            autoCorrect={false}
-            spellCheck={false}
-            {...props}
-          />
-        </View>
-        {error ? (
-          <Text style={styles.error}>{error}</Text>
-        ) : null}
+const InputField = forwardRef<TextInput, InputFieldProps>(({ label, variant = 'filled', error, ...props }, ref) => {
+  return (
+    <View>
+      {label && <Text style={styles.label}>{label}</Text>}
+      <View
+        style={[
+          styles.container,
+          styles[variant],
+          props.multiline ? styles.multiline : null,
+          error ? styles.errorInput : null,
+        ]}
+      >
+        <TextInput
+          ref={ref}
+          placeholderTextColor={COLORS.GRAY_500}
+          style={styles.input}
+          autoCapitalize="none"
+          autoCorrect={false}
+          spellCheck={false}
+          {...props}
+        />
       </View>
-    );
-  }
-);
+      {error ? <Text style={styles.error}>{error}</Text> : null}
+    </View>
+  );
+});
 
 export default InputField;
 
@@ -54,7 +45,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   filled: {
-    backgroundColor: COLORS.GRAY_100,
+    backgroundColor: COLORS.GRAY_200,
+  },
+  multiline: {
+    height: 200,
+    paddingVertical: 10,
+    alignItems: 'flex-start',
   },
   standard: {},
   outline: {},
