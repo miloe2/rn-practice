@@ -5,9 +5,7 @@ import { router } from 'expo-router';
 function useCreatePost() {
   return useMutation({
     mutationFn: createPost,
-    onSuccess() {
-      () => router.replace('/');
-    },
+    onSuccess: () => router.replace('/'),
   });
 }
 

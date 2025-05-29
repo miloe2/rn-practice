@@ -24,9 +24,8 @@ const PostWriteScreen = () => {
     },
   });
   const onSubmit = (formValues: FormValues) => {
-    console.log(formValues);
-    // const { title, description, imageUris } = formValues;
-    // createPost.mutate(formValues);
+    const { title, description, imageUris } = formValues;
+    createPost.mutate(formValues);
   };
 
   const navigation = useNavigation();
