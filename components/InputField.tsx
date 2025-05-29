@@ -27,6 +27,7 @@ const InputField = forwardRef<TextInput, InputFieldProps>(({ label, variant = 'f
           autoCapitalize="none"
           autoCorrect={false}
           spellCheck={false}
+          textAlignVertical='top'
           {...props}
         />
       </View>
@@ -50,7 +51,6 @@ const styles = StyleSheet.create({
   multiline: {
     height: 200,
     paddingVertical: 10,
-    alignItems: 'flex-start',
   },
   standard: {},
   outline: {},

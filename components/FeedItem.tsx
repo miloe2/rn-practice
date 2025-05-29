@@ -10,7 +10,7 @@ import {
   Octicons,
   MaterialCommunityIcons,
 } from '@expo/vector-icons';
-import { Post } from '@/app/types';
+import { Post } from '@/types';
 import Profile from './Profile';
 interface FeedItemProps {
   post: Post;

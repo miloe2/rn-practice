@@ -1,6 +1,7 @@
-import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
+import { StyleSheet, View } from 'react-native';
 import { FormProvider, useForm } from 'react-hook-form';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import CustomInput from '@/components/CustomInput';
 
 type FormValues = {
@@ -17,7 +18,7 @@ const PostWriteScreen = () => {
   });
   return (
     <FormProvider {...postForm}>
-      <View style={{ flex: 1, padding: 10 }}>
+      <KeyboardAwareScrollView contentContainerStyle={{ flex: 1, padding: 10 }}>
         <CustomInput
           name="title"
           label="제목"
@@ -44,7 +45,33 @@ const PostWriteScreen = () => {
             },
           }}
         />
-      </View>
+        <CustomInput
+          name="description"
+          label="내용"
+          placeholder="내용을 입력해주세요"
+          multiline
+          rules={{
+            validate: (data) => {
+              if (data.length === 0) {
+                return '내용을 입력해주세요';
+              }
+            },
+          }}
+        />
+        <CustomInput
+          name="description"
+          label="내용"
+          placeholder="내용을 입력해주세요"
+          multiline
+          rules={{
+            validate: (data) => {
+              if (data.length === 0) {
+                return '내용을 입력해주세요';
+              }
+            },
+          }}
+        />
+      </KeyboardAwareScrollView>
     </FormProvider>
   );
 };
