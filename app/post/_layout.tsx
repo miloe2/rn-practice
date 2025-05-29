@@ -21,7 +21,6 @@ const PostLayout = () => {
           title: '글쓰기',
           headerShown: true,
           // headerBackButtonDisplayMode: 'minimal',
-
           headerLeft: () => (
             <Pressable onPress={() => router.replace('/')}>
               <Feather name="arrow-left" size={28} color={'black'} />
