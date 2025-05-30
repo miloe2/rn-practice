@@ -1,15 +1,7 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  Pressable,
-} from 'react-native';
+import { View, Text, StyleSheet, Pressable } from 'react-native';
 import React from 'react';
 import { COLORS } from '@/constants';
-import {
-  Octicons,
-  MaterialCommunityIcons,
-} from '@expo/vector-icons';
+import { Octicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Post } from '@/types';
 import Profile from './Profile';
 interface FeedItemProps {
@@ -17,16 +9,16 @@ interface FeedItemProps {
 }
 
 const FeedItem = ({ post }: FeedItemProps) => {
-  const isLike = true;
+  const isLiked = post?.likes.some((userId) => post.userId === Number(userId));
   return (
     <View style={styles.container}>
       <View style={styles.contentContainer}>
-      <Profile
-        nickname={post.author.nickname}
-        imageUri={post.author.imageUri}
-        createdAt={post.createdAt}
-        onPress={() => console.log('hi')}
-      />
+        <Profile
+          nickname={post.author.nickname}
+          imageUri={post.author.imageUri}
+          createdAt={post.createdAt}
+          onPress={() => console.log('hi')}
+        />
         <Text style={styles.title}>{post.title}</Text>
         <Text numberOfLines={3} style={styles.description}>
           {post.description}
@@ -35,37 +27,21 @@ const FeedItem = ({ post }: FeedItemProps) => {
       <View style={styles.menuContainer}>
         <Pressable style={styles.menu}>
           <Octicons
-            name={isLike ? 'heart-fill' : 'heart'}
+            name={isLiked ? 'heart-fill' : 'heart'}
             size={16}
-            color={
-              isLike ? COLORS.ORANGE_600 : COLORS.BLACK
-            }
+            color={isLiked ? COLORS.ORANGE_600 : COLORS.BLACK}
           />
-          <Text
-            style={
-              isLike
-                ? styles.activeMenuText
-                : styles.menuText
-            }
-          >
-            1
+          <Text style={isLiked ? styles.activeMenuText : styles.menuText}>
+            {post.likes.length === 0 ? '좋아요' : post.likes.length}
           </Text>
         </Pressable>
         <Pressable style={styles.menu}>
-          <MaterialCommunityIcons
-            name="comment-processing-outline"
-            size={16}
-            color={COLORS.BLACK}
-          />
-          <Text>1</Text>
+          <MaterialCommunityIcons name="comment-processing-outline" size={16} color={COLORS.BLACK} />
+          <Text style={styles.menuText}>{post.commentCount || '댓글'}</Text>
         </Pressable>
         <Pressable style={styles.menu}>
-          <Octicons
-            name="eye"
-            size={16}
-            color={COLORS.BLACK}
-          />
-          <Text>1</Text>
+          <Octicons name="eye" size={16} color={COLORS.BLACK} />
+          <Text style={styles.menuText}>{post.viewCount}</Text>
         </Pressable>
       </View>
     </View>
@@ -101,10 +77,12 @@ const styles = StyleSheet.create({
     marginBottom: 14,
   },
   menuText: {
+    marginLeft: 4,
     // fontSize: 16,
     color: COLORS.GRAY_700,
   },
   activeMenuText: {
+    marginLeft: 4,
     fontWeight: 700,
     color: COLORS.ORANGE_600,
   },

@@ -1,6 +1,6 @@
 import { getPosts } from '@/api/post';
 import { queryKeys } from '@/constants';
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 
 function useGetInfinitePosts() {
   return useInfiniteQuery({
@@ -13,3 +13,5 @@ function useGetInfinitePosts() {
     },
   });
 }
+
+export { useGetInfinitePosts };
