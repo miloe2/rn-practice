@@ -1,6 +1,6 @@
 import { Pressable, SafeAreaView, StyleSheet } from 'react-native';
 import FeedList from '@/components/FeedList';
-import { COLORS } from '@/constants/Colors';
+import { COLORS } from '@/constants';
 import useAuth from '@/hooks/queries/useAuth';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';

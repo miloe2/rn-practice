@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import React from 'react';
 import FeedItem from './FeedItem';
-import { COLORS } from '@/constants/Colors';
+import { COLORS } from '@/constants';
 
 const dummy = [
   {

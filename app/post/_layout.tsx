@@ -3,7 +3,7 @@ import React from 'react';
 import { Stack } from 'expo-router';
 import { Feather, Foundation } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { COLORS } from '@/constants/Colors';
+import { COLORS } from '@/constants';
 
 const PostLayout = () => {
   const router = useRouter();

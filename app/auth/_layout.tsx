@@ -8,7 +8,7 @@ import React from 'react';
 import { Stack, Link } from 'expo-router';
 import { Foundation } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { COLORS } from '@/constants/Colors';
+import { COLORS } from '@/constants';
 
 const AuthLayout = () => {
   const router = useRouter();

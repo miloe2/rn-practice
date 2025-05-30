@@ -6,7 +6,7 @@ import {
   View,
 } from 'react-native';
 import React, { ReactNode } from 'react';
-import { COLORS } from '@/constants/Colors';
+import { COLORS } from '@/constants';
 interface ProfileProps {
   onPress: () => void;
   imageUri?: string;

@@ -2,7 +2,7 @@ import { Tabs } from 'expo-router';
 import React from 'react';
 import { Platform } from 'react-native';
 
-import { COLORS } from '@/constants/Colors';
+import { COLORS } from '@/constants';
 import {
   Ionicons,
   MaterialCommunityIcons,
