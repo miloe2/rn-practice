@@ -1,10 +1,4 @@
-import {
-  Image,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import React, { ReactNode } from 'react';
 import { COLORS } from '@/constants';
 interface ProfileProps {
@@ -15,34 +9,17 @@ interface ProfileProps {
   option?: ReactNode;
 }
 
-const Profile = ({
-  onPress,
-  imageUri,
-  nickname,
-  createdAt,
-}: ProfileProps) => {
+const Profile = ({ onPress, imageUri, nickname, createdAt, option }: ProfileProps) => {
   return (
     <View style={styles.container}>
-      <Pressable
-        style={styles.pressContainer}
-        onPress={onPress}
-      >
-        <Image
-          source={
-            imageUri
-              ? imageUri
-              : require('@/assets/images/react-logo.png')
-          }
-          style={styles.avatar}
-        />
+      <Pressable style={styles.pressContainer} onPress={onPress}>
+        <Image source={imageUri ? imageUri : require('@/assets/images/react-logo.png')} style={styles.avatar} />
         <View style={{ gap: 4 }}>
           <Text style={styles.nickname}>{nickname}</Text>
-          <Text style={styles.createdAt}>
-            {createdAt}createdAt
-          </Text>
+          <Text style={styles.createdAt}>{createdAt}</Text>
         </View>
       </Pressable>
-      {/* <Text>Profile</Text> */}
+      {option}
     </View>
   );
 };

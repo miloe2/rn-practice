@@ -8,6 +8,10 @@ import { COLORS } from '@/constants';
 import { Post } from '@/types';
 import Profile from './Profile';
 import useAuth from '@/hooks/queries/useAuth';
+import { useActionSheet } from '@expo/react-native-action-sheet';
+import { useDeletePost } from '@/hooks/queries/useDeletePost';
+import { router } from 'expo-router';
+
 interface FeedItemProps {
   post: Post;
 }
@@ -18,8 +22,33 @@ dayjs.locale('ko');
 const FeedItem = ({ post }: FeedItemProps) => {
   const { auth } = useAuth();
   const isLiked = post?.likes.some((userId) => post.userId === Number(userId));
+  const { showActionSheetWithOptions } = useActionSheet();
+  const deletePost = useDeletePost();
 
-  const handlePressOption = () => {};
+  const handlePressOption = () => {
+    const options = ['삭제', '수정', '취소'];
+    const cancelButtonIndex = 2;
+    const destructiveButtonIndex = 0;
+
+    showActionSheetWithOptions({ options, cancelButtonIndex, destructiveButtonIndex }, (selectedIndex?: number) => {
+      switch (selectedIndex) {
+        case destructiveButtonIndex:
+          console.log('삭제');
+          deletePost.mutate(post.id);
+          break;
+        case 1:
+          console.log('수정');
+          router.push(`/post/update/${post.id}`);
+          break;
+        case cancelButtonIndex:
+          console.log('취소');
+          break;
+        default:
+          console.log('defaulst');
+          break;
+      }
+    });
+  };
   return (
     <View style={styles.container}>
       <View style={styles.contentContainer}>
