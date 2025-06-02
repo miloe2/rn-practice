@@ -21,4 +21,15 @@ async function getPost(id: number): Promise<Post> {
   return data;
 }
 
-export { createPost, getPosts, deletePost, getPost };
+type RequestUpdatePost = {
+  id: number;
+  body: CreatePostDto;
+};
+
+async function updatePost({ id, body }: RequestUpdatePost): Promise<number> {
+  const { data } = await axiosInstance.patch(`/posts/${id}`, body);
+
+  return data;
+}
+
+export { createPost, getPosts, deletePost, getPost, updatePost };

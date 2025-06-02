@@ -28,6 +28,19 @@ const PostLayout = () => {
           ),
         }}
       />
+      <Stack.Screen
+        name="update/[id]"
+        options={{
+          title: '수정',
+          headerShown: true,
+          // headerBackButtonDisplayMode: 'minimal',
+          headerLeft: () => (
+            <Pressable onPress={() => router.back()}>
+              <Feather name="arrow-left" size={28} color={'black'} />
+            </Pressable>
+          ),
+        }}
+      />
     </Stack>
   );
 };
