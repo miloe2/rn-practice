@@ -1,23 +1,38 @@
-import { View, Text, StyleSheet, Pressable } from 'react-native';
 import React from 'react';
+import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { Octicons, MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import 'dayjs/locale/ko';
 import { COLORS } from '@/constants';
-import { Octicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Post } from '@/types';
 import Profile from './Profile';
+import useAuth from '@/hooks/queries/useAuth';
 interface FeedItemProps {
   post: Post;
 }
 
+dayjs.extend(relativeTime);
+dayjs.locale('ko');
+
 const FeedItem = ({ post }: FeedItemProps) => {
+  const { auth } = useAuth();
   const isLiked = post?.likes.some((userId) => post.userId === Number(userId));
+
+  const handlePressOption = () => {};
   return (
     <View style={styles.container}>
       <View style={styles.contentContainer}>
         <Profile
           nickname={post.author.nickname}
           imageUri={post.author.imageUri}
-          createdAt={post.createdAt}
+          createdAt={dayjs(post.createdAt).fromNow()}
           onPress={() => console.log('hi')}
+          option={
+            auth.id === post.author.id && (
+              <Ionicons name="ellipsis-vertical" size={24} color={COLORS.BLACK} onPress={handlePressOption} />
+            )
+          }
         />
         <Text style={styles.title}>{post.title}</Text>
         <Text numberOfLines={3} style={styles.description}>
