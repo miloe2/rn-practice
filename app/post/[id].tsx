@@ -1,4 +1,4 @@
-import { Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View, Keyboard } from 'react-native';
 import React, { useState } from 'react';
 import { useLocalSearchParams } from 'expo-router';
 import useGetPost from '@/hooks/queries/useGetPost';
@@ -8,6 +8,7 @@ import FeedItem from '@/components/FeedItem';
 import InputField from '@/components/InputField';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import useCreateComment from '@/hooks/queries/useCreateComment';
+import CommentItem from '@/components/CommentItem';
 
 function PostDetailScreen() {
   const { id } = useLocalSearchParams();
@@ -16,6 +17,7 @@ function PostDetailScreen() {
   const createComment = useCreateComment();
 
   const handleSubmitComment = () => {
+    Keyboard.dismiss(); // ✅ 키보드 내리기
     const commentData = {
       content: content,
       postId: Number(post?.id),
@@ -38,6 +40,9 @@ function PostDetailScreen() {
               <FeedItem post={post} isDetail={true} />
               <Text style={styles.commentCount}>댓글 {post.commentCount}개</Text>
             </View>
+            {post.comments?.map((comment) => (
+              <CommentItem key={comment.id} comment={comment} />
+            ))}
           </ScrollView>
           <View style={styles.commentInputContainer}>
             <InputField
@@ -47,7 +52,11 @@ function PostDetailScreen() {
               onSubmitEditing={handleSubmitComment}
               placeholder="댓글을 남겨보세요"
               rightChild={
-                <Pressable style={styles.inputButtonContainer} disabled={!content} onPress={handleSubmitComment}>
+                <Pressable
+                  style={styles.inputButtonContainer}
+                  disabled={!content}
+                  onPress={handleSubmitComment}
+                >
                   <Text style={styles.inputButtonText}>등록</Text>
                 </Pressable>
               }
@@ -75,6 +84,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   scrollViewContainer: {
+    flex: 1,
     backgroundColor: COLORS.GRAY_200,
   },
   keyboardAwareScrollViewContainer: {
