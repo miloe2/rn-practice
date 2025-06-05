@@ -41,6 +41,19 @@ const PostLayout = () => {
           ),
         }}
       />
+      <Stack.Screen
+        name="[id]"
+        options={{
+          title: '',
+          headerShown: true,
+          // headerBackButtonDisplayMode: 'minimal',
+          headerLeft: () => (
+            <Pressable onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))}>
+              <Feather name="arrow-left" size={28} color={'black'} />
+            </Pressable>
+          ),
+        }}
+      />
     </Stack>
   );
 };
