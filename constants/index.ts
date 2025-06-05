@@ -27,6 +27,7 @@ const queryKeys = {
   POST: 'post',
   GET_POSTS: 'getPosts',
   GET_POST: 'getPost',
+  COMMENTS: 'comments',
 };
 
 export { COLORS, queryKeys };

@@ -1,5 +1,5 @@
 import { Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import { useLocalSearchParams } from 'expo-router';
 import useGetPost from '@/hooks/queries/useGetPost';
 import AuthRoute from '@/components/AuthRoute';
@@ -7,10 +7,23 @@ import { COLORS } from '@/constants';
 import FeedItem from '@/components/FeedItem';
 import InputField from '@/components/InputField';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import useCreateComment from '@/hooks/queries/useCreateComment';
 
 function PostDetailScreen() {
   const { id } = useLocalSearchParams();
   const { data: post, isPending, isError } = useGetPost(Number(id));
+  const [content, setContent] = useState('');
+  const createComment = useCreateComment();
+
+  const handleSubmitComment = () => {
+    const commentData = {
+      content: content,
+      postId: Number(post?.id),
+    };
+    createComment.mutate(commentData, {
+      onSuccess: () => setContent(''),
+    });
+  };
 
   if (isPending || isError) {
     return <></>;
@@ -28,8 +41,13 @@ function PostDetailScreen() {
           </ScrollView>
           <View style={styles.commentInputContainer}>
             <InputField
+              value={content}
+              onChangeText={setContent}
+              returnKeyType="send"
+              onSubmitEditing={handleSubmitComment}
+              placeholder="댓글을 남겨보세요"
               rightChild={
-                <Pressable style={styles.inputButtonContainer}>
+                <Pressable style={styles.inputButtonContainer} disabled={!content} onPress={handleSubmitComment}>
                   <Text style={styles.inputButtonText}>등록</Text>
                 </Pressable>
               }
