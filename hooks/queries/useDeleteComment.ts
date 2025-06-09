@@ -13,3 +13,5 @@ function useDeleteComment() {
     },
   });
 }
+
+export default useDeleteComment;

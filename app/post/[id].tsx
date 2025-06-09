@@ -1,5 +1,5 @@
 import { Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useLocalSearchParams } from 'expo-router';
 import useGetPost from '@/hooks/queries/useGetPost';
 import AuthRoute from '@/components/AuthRoute';
@@ -8,12 +8,14 @@ import FeedItem from '@/components/FeedItem';
 import InputField from '@/components/InputField';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import useCreateComment from '@/hooks/queries/useCreateComment';
+import CommentItem from '@/components/CommentItem';
 
 function PostDetailScreen() {
   const { id } = useLocalSearchParams();
   const { data: post, isPending, isError } = useGetPost(Number(id));
   const [content, setContent] = useState('');
   const createComment = useCreateComment();
+  const scrollRef = useRef<ScrollView | null>(null);
 
   const handleSubmitComment = () => {
     const commentData = {
@@ -21,7 +23,12 @@ function PostDetailScreen() {
       postId: Number(post?.id),
     };
     createComment.mutate(commentData, {
-      onSuccess: () => setContent(''),
+      onSuccess: () => {
+        setContent('');
+        setTimeout(() => {
+          scrollRef.current?.scrollToEnd();
+        }, 500);
+      },
     });
   };
 
@@ -32,12 +39,23 @@ function PostDetailScreen() {
   return (
     <AuthRoute>
       <SafeAreaView style={styles.container}>
-        <KeyboardAwareScrollView contentContainerStyle={styles.keyboardAwareScrollViewContainer}>
-          <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+        <KeyboardAwareScrollView
+          contentContainerStyle={styles.keyboardAwareScrollViewContainer}
+          bounces={false}
+          keyboardShouldPersistTaps="handled"
+        >
+          <ScrollView
+            ref={scrollRef}
+            style={{ marginBottom: 75 }}
+            contentContainerStyle={styles.scrollViewContainer}
+          >
             <View style={{ marginTop: 12 }}>
               <FeedItem post={post} isDetail={true} />
               <Text style={styles.commentCount}>댓글 {post.commentCount}개</Text>
             </View>
+            {post.comments?.map((comment) => (
+              <CommentItem key={comment.id} comment={comment} />
+            ))}
           </ScrollView>
           <View style={styles.commentInputContainer}>
             <InputField
@@ -47,7 +65,13 @@ function PostDetailScreen() {
               onSubmitEditing={handleSubmitComment}
               placeholder="댓글을 남겨보세요"
               rightChild={
-                <Pressable style={styles.inputButtonContainer} disabled={!content} onPress={handleSubmitComment}>
+                <Pressable
+                  style={styles.inputButtonContainer}
+                  disabled={!content}
+                  onPress={() => {
+                    handleSubmitComment();
+                  }}
+                >
                   <Text style={styles.inputButtonText}>등록</Text>
                 </Pressable>
               }
@@ -92,7 +116,7 @@ const styles = StyleSheet.create({
   },
   inputButtonContainer: {
     backgroundColor: COLORS.ORANGE_600,
-    padding: 8,
+    padding: 20,
     borderRadius: 5,
   },
   inputButtonText: {

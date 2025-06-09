@@ -47,7 +47,7 @@ export default function CommentItem({ comment, isReply }: CommentItemProps) {
         {isReply && <MaterialCommunityIcons name="arrow-right-bottom" size={24} color={'black'} />}
         <Profile
           imageUri={comment.isDeleted ? '' : comment.user.imageUri}
-          nickname={comment.isDeleted ? '삭제' : comment.user.nickname}
+          nickname={comment.isDeleted ? '(삭제)' : comment.user.nickname}
           createdAt={comment.createdAt}
           onPress={() => {}}
           option={
