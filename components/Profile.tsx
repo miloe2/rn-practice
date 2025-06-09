@@ -13,10 +13,7 @@ const Profile = ({ onPress, imageUri, nickname, createdAt, option }: ProfileProp
   return (
     <View style={styles.container}>
       <Pressable style={styles.pressContainer} onPress={onPress}>
-        <Image
-          source={imageUri ? imageUri : require('@/assets/images/react-logo.png')}
-          style={styles.avatar}
-        />
+        <Image source={imageUri ? imageUri : require('@/assets/images/react-logo.png')} style={styles.avatar} />
         <View style={{ gap: 4 }}>
           <Text style={styles.nickname}>{nickname}</Text>
           <Text style={styles.createdAt}>{createdAt}</Text>
