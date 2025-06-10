@@ -110,7 +110,7 @@ function PostDetailScreen() {
               returnKeyType="send"
               onSubmitEditing={handleSubmitComment}
               placeholder={
-                parentCommentId ? `'답글 남기는 중...'${parentCommentId}` : '댓글을 남겨보세요'
+                parentCommentId ? `답글 남기는 중...${parentCommentId}` : '댓글을 남겨보세요'
               }
               rightChild={
                 <Pressable
