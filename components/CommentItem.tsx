@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Pressable } from 'react-native';
 import React from 'react';
 import { Comment } from '@/types';
 import { COLORS } from '@/constants';
@@ -11,13 +11,32 @@ import useDeleteComment from '@/hooks/queries/useDeleteComment';
 
 interface CommentItemProps {
   comment: Comment;
+  parentCommentId?: number | null;
+  onReply?: () => void;
+  onCancelReply?: () => void;
   isReply?: boolean;
 }
 
-export default function CommentItem({ comment, isReply }: CommentItemProps) {
+export default function CommentItem({
+  comment,
+  onReply,
+  onCancelReply,
+  parentCommentId,
+  isReply,
+}: CommentItemProps) {
   const { auth } = useAuth();
   const { showActionSheetWithOptions } = useActionSheet();
   const deleteComment = useDeleteComment();
+
+  const getCommentBackground = () => {
+    if (parentCommentId === comment.id) {
+      return COLORS.ORANGE_100;
+    }
+    if (isReply) {
+      return COLORS.GRAY_50;
+    }
+    return COLORS.WHITE;
+  };
   const handlePressOption = () => {
     const options = ['삭제', '취소'];
     const destructiveButtonIndex = 0;
@@ -42,7 +61,7 @@ export default function CommentItem({ comment, isReply }: CommentItemProps) {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: getCommentBackground() }]}>
       <View style={styles.profileContainer}>
         {isReply && <MaterialCommunityIcons name="arrow-right-bottom" size={24} color={'black'} />}
         <Profile
@@ -67,6 +86,18 @@ export default function CommentItem({ comment, isReply }: CommentItemProps) {
         editable={false}
         value={comment.isDeleted ? '삭제된 댓글입니다' : comment.content}
       />
+      {!comment.isDeleted && !isReply && (
+        <View style={styles.replyButtonContainer}>
+          <Pressable onPress={onReply}>
+            <Text style={styles.replyButton}>답글 남기기</Text>
+          </Pressable>
+          {parentCommentId === comment.id && (
+            <Pressable onPress={onCancelReply}>
+              <Text style={styles.cancelButton}>취소</Text>
+            </Pressable>
+          )}
+        </View>
+      )}
     </View>
   );
 }
@@ -79,5 +110,24 @@ const styles = StyleSheet.create({
     borderColor: COLORS.GRAY_200,
     borderWidth: 1,
   },
-  profileContainer: {},
+  profileContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  replyButtonContainer: {
+    flexDirection: 'row',
+    gap: 10,
+    alignItems: 'center',
+  },
+  replyButton: {
+    fontWeight: 'bold',
+    color: COLORS.ORANGE_600,
+    fontSize: 12,
+  },
+  cancelButton: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: COLORS.BLACK,
+  },
 });
