@@ -48,6 +48,8 @@ const LoginScreen = () => {
           placeholder="비밀번호를 입력해주세요"
           secureTextEntry
           submitBehavior="blurAndSubmit"
+          returnKeyType='send'
+          onSubmitEditing={loginForm.handleSubmit(onSubmit)}
           // rules={{
           //   validate: (data) => {
           //     if (data.length < 8) {

@@ -7,6 +7,7 @@ import { useCreatePost } from '@/hooks/queries/useCreatePost';
 import { ImageUri } from '@/types';
 import CustomButton from '@/components/CustomButton';
 import { useNavigation } from 'expo-router';
+import PostWriterFooter from '@/components/PostWriterFooter';
 
 type FormValues = {
   title: string;
@@ -33,7 +34,12 @@ const PostWriteScreen = () => {
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <CustomButton label="저장" size="medium" variant="standard" onPress={postForm.handleSubmit(onSubmit)} />
+        <CustomButton
+          label="저장"
+          size="medium"
+          variant="standard"
+          onPress={postForm.handleSubmit(onSubmit)}
+        />
       ),
     });
   }, []);
@@ -67,6 +73,7 @@ const PostWriteScreen = () => {
           }}
         />
       </KeyboardAwareScrollView>
+      <PostWriterFooter />
     </FormProvider>
   );
 };

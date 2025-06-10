@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center',
+    // alignItems: 'center',
   },
   filled: {
     backgroundColor: COLORS.GRAY_100,
