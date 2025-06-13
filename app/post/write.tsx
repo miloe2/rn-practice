@@ -8,6 +8,7 @@ import { ImageUri } from '@/types';
 import CustomButton from '@/components/CustomButton';
 import { useNavigation } from 'expo-router';
 import PostWriterFooter from '@/components/PostWriterFooter';
+import ImagePreviewList from '@/components/ImagePreviewList';
 
 type FormValues = {
   title: string;
@@ -28,6 +29,8 @@ const PostWriteScreen = () => {
     const { title, description, imageUris } = formValues;
     createPost.mutate(formValues);
   };
+
+  console.log('postForm', postForm.watch().imageUris)
 
   const navigation = useNavigation();
 
@@ -72,6 +75,7 @@ const PostWriteScreen = () => {
             },
           }}
         />
+        <ImagePreviewList imageUris={postForm.watch().imageUris} />
       </KeyboardAwareScrollView>
       <PostWriterFooter />
     </FormProvider>

@@ -11,6 +11,7 @@ import useAuth from '@/hooks/queries/useAuth';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import { useDeletePost } from '@/hooks/queries/useDeletePost';
 import { router } from 'expo-router';
+import ImagePreviewList from './ImagePreviewList';
 
 interface FeedItemProps {
   post: Post;
@@ -31,26 +32,29 @@ const FeedItem = ({ post, isDetail = false }: FeedItemProps) => {
     const cancelButtonIndex = 2;
     const destructiveButtonIndex = 0;
 
-    showActionSheetWithOptions({ options, cancelButtonIndex, destructiveButtonIndex }, (selectedIndex?: number) => {
-      switch (selectedIndex) {
-        case destructiveButtonIndex:
-          console.log('삭제');
-          deletePost.mutate(post.id, {
-            onSuccess: () => isDetail && router.back(),
-          });
-          break;
-        case 1:
-          console.log('수정');
-          router.push(`/post/update/${post.id}`);
-          break;
-        case cancelButtonIndex:
-          console.log('취소');
-          break;
-        default:
-          console.log('defaulst');
-          break;
+    showActionSheetWithOptions(
+      { options, cancelButtonIndex, destructiveButtonIndex },
+      (selectedIndex?: number) => {
+        switch (selectedIndex) {
+          case destructiveButtonIndex:
+            console.log('삭제');
+            deletePost.mutate(post.id, {
+              onSuccess: () => isDetail && router.back(),
+            });
+            break;
+          case 1:
+            console.log('수정');
+            router.push(`/post/update/${post.id}`);
+            break;
+          case cancelButtonIndex:
+            console.log('취소');
+            break;
+          default:
+            console.log('defaulst');
+            break;
+        }
       }
-    });
+    );
   };
   const handlePressFeed = () => {
     if (!isDetail) {
@@ -72,7 +76,12 @@ const FeedItem = ({ post, isDetail = false }: FeedItemProps) => {
           onPress={() => console.log('hi')}
           option={
             auth.id === post.author.id && (
-              <Ionicons name="ellipsis-vertical" size={24} color={COLORS.BLACK} onPress={handlePressOption} />
+              <Ionicons
+                name="ellipsis-vertical"
+                size={24}
+                color={COLORS.BLACK}
+                onPress={handlePressOption}
+              />
             )
           }
         />
@@ -80,6 +89,7 @@ const FeedItem = ({ post, isDetail = false }: FeedItemProps) => {
         <Text numberOfLines={3} style={styles.description}>
           {post.description}
         </Text>
+        <ImagePreviewList imageUris={post.imageUris} />
       </View>
       <View style={styles.menuContainer}>
         <Pressable style={styles.menu}>
@@ -93,7 +103,11 @@ const FeedItem = ({ post, isDetail = false }: FeedItemProps) => {
           </Text>
         </Pressable>
         <Pressable style={styles.menu}>
-          <MaterialCommunityIcons name="comment-processing-outline" size={16} color={COLORS.BLACK} />
+          <MaterialCommunityIcons
+            name="comment-processing-outline"
+            size={16}
+            color={COLORS.BLACK}
+          />
           <Text style={styles.menuText}>{post.commentCount || '댓글'}</Text>
         </Pressable>
         <Pressable style={styles.menu}>
