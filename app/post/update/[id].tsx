@@ -9,11 +9,13 @@ import CustomButton from '@/components/CustomButton';
 import { router, useLocalSearchParams, useNavigation } from 'expo-router';
 import useGetPost from '@/hooks/queries/useGetPost';
 import useUpdatePost from '@/hooks/queries/useUpdatePost';
+import VoteAttached from '@/components/VoteAttached';
 
 type FormValues = {
   title: string;
   description: string;
   imageUris: ImageUri[];
+  isVoteAttached: boolean;
 };
 
 function PostUpdateScreen() {
@@ -25,6 +27,7 @@ function PostUpdateScreen() {
       title: post?.title,
       description: post?.description,
       imageUris: post?.imageUris,
+      isVoteAttached: post?.hasVote,
     },
   });
   console.log('data', post);
@@ -36,18 +39,22 @@ function PostUpdateScreen() {
         title: post.title,
         description: post.description,
         imageUris: post.imageUris,
+        isVoteAttached: post?.hasVote,
       });
     }
   }, [post]);
 
   const onSubmit = (formValues: FormValues) => {
     const { title, description, imageUris } = formValues;
-    updatePost.mutate({
-      id: Number(id),
-      body: formValues,
-    }, {
-      onSuccess : () => router.back()
-    });
+    updatePost.mutate(
+      {
+        id: Number(id),
+        body: formValues,
+      },
+      {
+        onSuccess: () => router.back(),
+      }
+    );
   };
 
   const navigation = useNavigation();
@@ -55,7 +62,12 @@ function PostUpdateScreen() {
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <CustomButton label="수정" size="medium" variant="standard" onPress={postForm.handleSubmit(onSubmit)} />
+        <CustomButton
+          label="수정"
+          size="medium"
+          variant="standard"
+          onPress={postForm.handleSubmit(onSubmit)}
+        />
       ),
     });
   }, []);
@@ -92,6 +104,7 @@ function PostUpdateScreen() {
             />
           </>
         )}
+        <VoteAttached />
       </KeyboardAwareScrollView>
     </FormProvider>
   );

@@ -25,7 +25,7 @@ const InputField = forwardRef<TextInput, InputFieldProps>(
           <TextInput
             ref={ref}
             placeholderTextColor={COLORS.GRAY_500}
-            style={styles.input}
+            style={[styles.input, styles[`${variant}Text`]]}
             autoCapitalize="none"
             autoCorrect={false}
             spellCheck={false}
@@ -48,17 +48,35 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     flexDirection: 'row',
     justifyContent: 'center',
-    // alignItems: 'center',
+    alignItems: 'center',
+  },
+  multiline: {
+    height: 200,
+    alignItems: 'flex-start',
+    paddingVertical: 10,
   },
   filled: {
     backgroundColor: COLORS.GRAY_100,
   },
-  multiline: {
-    height: 200,
-    paddingVertical: 10,
+  standard: {
+    borderWidth: 1,
+    borderColor: COLORS.GRAY_200,
   },
-  standard: {},
-  outline: {},
+  outline: {
+    borderWidth: 1,
+    borderColor: COLORS.ORANGE_600,
+  },
+  filledText: {
+    color: COLORS.BLACK,
+  },
+  standardText: {
+    color: COLORS.BLACK,
+  },
+  outlineText: {
+    color: COLORS.ORANGE_600,
+    fontWeight: 'bold',
+  },
+
   input: {
     flex: 1,
     fontSize: 16,

@@ -1,7 +1,7 @@
 import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import { COLORS } from '@/constants';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as ImagePicker from 'expo-image-picker';
 import useUploadImages from '@/hooks/queries/useUploadImages';
@@ -42,6 +42,14 @@ const PostWriterFooter = () => {
     <View style={[styles.container, { paddingBottom: inset.bottom }]}>
       <Pressable style={styles.footerIcon} onPress={handleOpenImagePick}>
         <Ionicons name="camera" size={20} color={COLORS.BLACK} />
+      </Pressable>
+      <Pressable
+        style={styles.footerIcon}
+        onPress={() => {
+          setValue('isVoteOpen', true);
+        }}
+      >
+        <MaterialCommunityIcons name="vote" size={20} color={COLORS.BLACK} />
       </Pressable>
     </View>
   );

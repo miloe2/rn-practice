@@ -4,16 +4,21 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import CustomInput from '@/components/CustomInput';
 import { useCreatePost } from '@/hooks/queries/useCreatePost';
-import { ImageUri } from '@/types';
+import { ImageUri, VoteOption } from '@/types';
 import CustomButton from '@/components/CustomButton';
 import { useNavigation } from 'expo-router';
 import PostWriterFooter from '@/components/PostWriterFooter';
 import ImagePreviewList from '@/components/ImagePreviewList';
+import VoteModal from '@/components/VoteModal';
+import VoteAttached from '@/components/VoteAttached';
 
 type FormValues = {
   title: string;
   description: string;
   imageUris: ImageUri[];
+  isVoteOpen: boolean;
+  isVoteAttached: boolean;
+  voteOptions: VoteOption[];
 };
 
 const PostWriteScreen = () => {
@@ -23,14 +28,16 @@ const PostWriteScreen = () => {
       title: '',
       description: '',
       imageUris: [],
+      isVoteOpen: false,
+      isVoteAttached: false,
+      voteOptions: [{ displayPriority: 0, content: '' }],
     },
   });
   const onSubmit = (formValues: FormValues) => {
-    const { title, description, imageUris } = formValues;
     createPost.mutate(formValues);
   };
 
-  console.log('postForm', postForm.watch().imageUris)
+  console.log('postForm', postForm.watch().voteOptions);
 
   const navigation = useNavigation();
 
@@ -75,9 +82,11 @@ const PostWriteScreen = () => {
             },
           }}
         />
+        <VoteAttached />
         <ImagePreviewList imageUris={postForm.watch().imageUris} />
       </KeyboardAwareScrollView>
       <PostWriterFooter />
+      <VoteModal />
     </FormProvider>
   );
 };

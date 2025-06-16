@@ -1,9 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { Octicons, MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
-import 'dayjs/locale/ko';
 import { COLORS } from '@/constants';
 import { Post } from '@/types';
 import Profile from './Profile';
@@ -17,9 +14,6 @@ interface FeedItemProps {
   post: Post;
   isDetail: boolean;
 }
-
-dayjs.extend(relativeTime);
-dayjs.locale('ko');
 
 const FeedItem = ({ post, isDetail = false }: FeedItemProps) => {
   const { auth } = useAuth();
@@ -72,7 +66,7 @@ const FeedItem = ({ post, isDetail = false }: FeedItemProps) => {
         <Profile
           nickname={post.author.nickname}
           imageUri={post.author.imageUri}
-          createdAt={dayjs(post.createdAt).fromNow()}
+          createdAt={post.createdAt}
           onPress={() => console.log('hi')}
           option={
             auth.id === post.author.id && (
