@@ -5,6 +5,8 @@ import { COLORS } from '@/constants';
 import { Feather } from '@expo/vector-icons';
 import useAuth from '@/hooks/queries/useAuth';
 import CustomButton from './CustomButton';
+import VoteOption from './VoteOption';
+import useCreateVote from '@/hooks/queries/useCreateVote';
 interface VoteProps {
   postId: number;
   postVotes: PostVote[];
@@ -14,6 +16,10 @@ interface VoteProps {
 export default function Vote({ postId, postVotes, voteCount }: VoteProps) {
   const { auth } = useAuth();
   const [selectedId, setSelectedId] = useState<number>();
+  const createVote = useCreateVote();
+  const handleVote = () => {
+    createVote.mutate({ postId: postId, voteOptionId: Number(selectedId) });
+  };
   return (
     <View style={styles.container}>
       <View style={styles.label}>
@@ -31,10 +37,19 @@ export default function Vote({ postId, postVotes, voteCount }: VoteProps) {
         return (
           <Fragment key={vote.id}>
             {vote.options.map((option) => {
-              return <Text key={option.id}>{option.content}</Text>;
+              return (
+                <VoteOption
+                  key={option.id}
+                  isVoted={isVoted}
+                  isSelected={option.id === selectedId}
+                  onSelectOption={() => setSelectedId(Number(option.id))}
+                  option={option}
+                  totalCount={voteCount}
+                />
+              );
             })}
             {!isVoted && (
-              <CustomButton label="투표하기" disabled={!selectedId} onPress={() => {}} />
+              <CustomButton label="투표하기" disabled={!selectedId} onPress={handleVote} />
             )}
           </Fragment>
         );
