@@ -10,6 +10,7 @@ import { useDeletePost } from '@/hooks/queries/useDeletePost';
 import { router } from 'expo-router';
 import ImagePreviewList from './ImagePreviewList';
 import Vote from './Vote';
+import useLikePost from '@/hooks/queries/useLikePost';
 
 interface FeedItemProps {
   post: Post;
@@ -18,9 +19,11 @@ interface FeedItemProps {
 
 const FeedItem = ({ post, isDetail = false }: FeedItemProps) => {
   const { auth } = useAuth();
-  const isLiked = post?.likes.some((userId) => post.userId === Number(userId));
+  const likeUsers = post.likes?.map((like) => Number(like.userId));
+  const isLiked = likeUsers?.includes(Number(auth.id));
   const { showActionSheetWithOptions } = useActionSheet();
   const deletePost = useDeletePost();
+  const likePost = useLikePost();
 
   const handlePressOption = () => {
     const options = ['삭제', '수정', '취소'];
@@ -59,6 +62,13 @@ const FeedItem = ({ post, isDetail = false }: FeedItemProps) => {
       });
     }
   };
+
+  const handlePressLike = () => {
+    if (!auth.id) return router.push('/auth');
+    if (!isDetail) return router.push(`/post/${post.id}`);
+    likePost.mutate(post.id);
+  };
+
   const ContainerComponent = isDetail ? View : Pressable;
 
   return (
@@ -99,7 +109,7 @@ const FeedItem = ({ post, isDetail = false }: FeedItemProps) => {
         )}
       </View>
       <View style={styles.menuContainer}>
-        <Pressable style={styles.menu}>
+        <Pressable style={styles.menu} onPress={handlePressLike}>
           <Octicons
             name={isLiked ? 'heart-fill' : 'heart'}
             size={16}
@@ -109,7 +119,7 @@ const FeedItem = ({ post, isDetail = false }: FeedItemProps) => {
             {post.likes.length === 0 ? '좋아요' : post.likes.length}
           </Text>
         </Pressable>
-        <Pressable style={styles.menu}>
+        <Pressable style={styles.menu} onPress={handlePressFeed}>
           <MaterialCommunityIcons
             name="comment-processing-outline"
             size={16}
@@ -117,7 +127,7 @@ const FeedItem = ({ post, isDetail = false }: FeedItemProps) => {
           />
           <Text style={styles.menuText}>{post.commentCount || '댓글'}</Text>
         </Pressable>
-        <Pressable style={styles.menu}>
+        <Pressable style={styles.menu} onPress={handlePressFeed}>
           <Octicons name="eye" size={16} color={COLORS.BLACK} />
           <Text style={styles.menuText}>{post.viewCount}</Text>
         </Pressable>

@@ -8,7 +8,7 @@ export default function useCreateVote() {
     mutationFn: createVote,
     onSuccess: (data) => {
       queryClient.invalidateQueries({
-        queryKey: [queryKeys.POST, queryKeys.GET_POST, data.postId, data.voteOption],
+        queryKey: [queryKeys.POST, queryKeys.GET_POST, data.postId],
       });
     },
   });

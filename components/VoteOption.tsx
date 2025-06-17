@@ -1,7 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import { PostVoteOption } from '@/types';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { COLORS } from '@/constants';
 
 interface VoteOptionProps {
@@ -90,7 +89,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   percentText: {
-    marginRight: 10,
+    // marginLeft: 10,
+    marginHorizontal: 10,
     fontWeight: 500,
   },
 });
