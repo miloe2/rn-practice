@@ -10,7 +10,10 @@ const AuthRoute = ({ children }: AuthRouteProps) => {
   useFocusEffect(() => {
     !auth.id && router.replace('/auth');
   });
+
+  if (!auth.id) return null;
+
   return <>{children}</>;
-}  ;
+};
 
 export default AuthRoute;

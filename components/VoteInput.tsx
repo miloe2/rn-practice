@@ -34,7 +34,7 @@ export default function VoteInput({ index, onRemove }: VoteInputProps) {
               <Ionicons name="close" size={20} color={COLORS.BLACK} onPress={onRemove} />
             </Pressable>
           }
-        ></InputField>
+        />
       )}
     />
   );
