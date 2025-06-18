@@ -6,7 +6,13 @@ import { useGetInfinitePosts } from '@/hooks/queries/useGetInfinitePosts';
 import { useScrollToTop } from '@react-navigation/native';
 
 const FeedList = () => {
-  const { data: posts, fetchNextPage, hasNextPage, isFetchingNextPage, refetch } = useGetInfinitePosts();
+  const {
+    data: posts,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    refetch,
+  } = useGetInfinitePosts();
   const [isRefreshing, setIsRefreshing] = useState(false);
   const ref = useRef<FlatList | null>(null);
   useScrollToTop(ref);
@@ -26,7 +32,7 @@ const FeedList = () => {
     <FlatList
       ref={ref}
       data={posts?.pages.flat()}
-      renderItem={({ item }) => <FeedItem post={item} />}
+      renderItem={({ item }) => <FeedItem post={item} isDetail={false} />}
       keyExtractor={(item) => String(item.id)}
       contentContainerStyle={styles.contentContainer}
       onEndReached={handleEndReached}
