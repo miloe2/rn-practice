@@ -1,4 +1,4 @@
-import axiosInstance from './axios';
+import { axiosInstance } from './axios';
 import { CreatePostDto, Post, CreateVoteDto, VoteOption } from '@/types';
 
 async function createPost(body: CreatePostDto) {

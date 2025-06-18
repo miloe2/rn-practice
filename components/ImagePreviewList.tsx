@@ -2,6 +2,7 @@ import { Image, Platform, Pressable, ScrollView, StyleSheet, Text, View } from '
 import React from 'react';
 import { ImageUri } from '@/types';
 import { router } from 'expo-router';
+import { BASE_URL } from '@/api/axios';
 
 interface ImagePreviewListProps {
   imageUris: ImageUri[];
@@ -15,7 +16,7 @@ export default function ImagePreviewList({ imageUris = [] }: ImagePreviewListPro
       contentContainerStyle={styles.container}
     >
       {imageUris.map(({ uri }, index) => {
-        const imageUri = `http://172.20.10.3:3030/${uri}`;
+        const imageUri = `${BASE_URL}/${uri}`;
         return (
           <Pressable
             key={uri + index}

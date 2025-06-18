@@ -1,4 +1,4 @@
-import axiosInstance from './axios';
+import { axiosInstance } from './axios';
 
 async function uploadImages(body: FormData): Promise<string[]> {
   const { data } = await axiosInstance.post('/images', body, {
