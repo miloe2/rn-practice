@@ -78,7 +78,12 @@ const FeedItem = ({ post, isDetail = false }: FeedItemProps) => {
           nickname={post.author.nickname}
           imageUri={post.author.imageUri}
           createdAt={post.createdAt}
-          onPress={() => console.log('hi')}
+          onPress={() => {
+            router.push({
+              pathname: '/profile/[id]',
+              params: { id: String(post.author.id) },
+            });
+          }}
           option={
             auth.id === post.author.id && (
               <Ionicons

@@ -1,16 +1,21 @@
-import AuthRoute from '@/components/AuthRoute';
+import { View, Text, StyleSheet, Image } from 'react-native';
+import PagerView from 'react-native-pager-view';
+import { useState, useRef } from 'react';
 import useAuth from '@/hooks/queries/useAuth';
-import { SafeAreaView, View, Text, StyleSheet, Image } from 'react-native';
 import { BASE_URL } from '@/api/axios';
 import { COLORS } from '@/constants';
+import AuthRoute from '@/components/AuthRoute';
 import Tab from '@/components/Tab';
-import { useState } from 'react';
-import CustomInput from '@/components/CustomInput';
 import CustomButton from '@/components/CustomButton';
+import MyFeedList from '@/components/MyFeedList';
+import LikedFeedList from '@/components/LikedFeedList';
+
 export default function MyScreen() {
   const { auth } = useAuth();
+  const pageRef = useRef<PagerView | null>(null);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const handlePressTab = (index: number) => {
+    pageRef.current?.setPage(index);
     setCurrentIndex(index);
   };
   return (
@@ -46,6 +51,15 @@ export default function MyScreen() {
           좋아요 게시물
         </Tab>
       </View>
+      <PagerView
+        ref={pageRef}
+        initialPage={0}
+        style={{ flex: 1 }}
+        onPageSelected={(e) => setCurrentIndex(e.nativeEvent.position)}
+      >
+        <MyFeedList key={1} />
+        <LikedFeedList key={2} />
+      </PagerView>
     </AuthRoute>
   );
 }
