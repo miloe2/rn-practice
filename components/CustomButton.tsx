@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
   },
   text_outline: {
     fontSize: 14,
+    color: COLORS.ORANGE_600,
   },
   text_filled: {
     fontSize: 14,
@@ -65,7 +66,8 @@ const styles = StyleSheet.create({
     height: 44,
   },
   medium: {
-    height: 32,
+    height: 38,
+    paddingHorizontal: 12,
   },
   pressed: {
     opacity: 0.9,

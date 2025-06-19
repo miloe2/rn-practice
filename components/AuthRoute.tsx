@@ -5,7 +5,7 @@ interface AuthRouteProps {
   children: ReactNode;
 }
 
-const AuthRoute = ({ children }: AuthRouteProps) => {
+function AuthRoute({ children }: AuthRouteProps) {
   const { auth } = useAuth();
   useFocusEffect(() => {
     !auth.id && router.replace('/auth');
@@ -14,6 +14,6 @@ const AuthRoute = ({ children }: AuthRouteProps) => {
   if (!auth.id) return null;
 
   return <>{children}</>;
-};
+}
 
 export default AuthRoute;
