@@ -10,6 +10,7 @@ import useAuth from '@/hooks/queries/useAuth';
 import { useNavigation } from 'expo-router';
 import { COLORS } from '@/constants';
 import Toast from 'react-native-toast-message';
+import { SvgUri } from 'react-native-svg';
 
 export default function AvatarScreen() {
   const navigation = useNavigation();
@@ -23,39 +24,51 @@ export default function AvatarScreen() {
     topId: auth?.topId ?? '',
     bottomId: auth?.bottomId ?? '',
     handId: auth?.handId ?? '',
-    skinId: auth?.skinId ?? '',
+    skinId: auth?.skinId ?? '01',
   });
 
   const itemObject = [
     {
       data: hats,
+      category: 'hats',
       name: 'hatId',
       id: avatarItem.hatId,
+      zIndex: 70,
     },
     {
       data: faces,
+      category: 'faces',
       name: 'faceId',
       id: avatarItem.faceId,
+      zIndex: 60,
     },
     {
       data: tops,
+      category: 'tops',
       name: 'topId',
       id: avatarItem.topId,
+      zIndex: 50,
     },
     {
       data: bottoms,
+      category: 'bottoms',
       name: 'bottomId',
       id: avatarItem.bottomId,
+      zIndex: 40,
     },
     {
       data: hands,
+      category: 'hands',
       name: 'handId',
       id: avatarItem.handId,
+      zIndex: 10,
     },
     {
       data: skins,
+      category: 'skins',
       name: 'skinId',
       id: avatarItem.skinId,
+      zIndex: 20,
     },
   ];
 
@@ -84,6 +97,10 @@ export default function AvatarScreen() {
     });
   };
 
+  const getAvatarItemUrl = (category: string, id: string) => {
+    return `${BASE_URL}/items/${category}/${id}.svg`;
+  };
+
   useEffect(() => {
     navigation.setOptions({
       headerStyle: {
@@ -95,6 +112,21 @@ export default function AvatarScreen() {
   return (
     <>
       <View style={styles.container}>
+        <View style={styles.headerContainer}>
+          <View style={styles.avatarContainer}>
+            <SvgUri uri={`${BASE_URL}/default/frame.svg`} style={[styles.avatar, { zIndex: 30 }]} />
+            {itemObject.map(
+              (item, index) =>
+                item.id && (
+                  <SvgUri
+                    key={index}
+                    uri={getAvatarItemUrl(item.category, item.id)}
+                    style={[styles.avatar, { zIndex: item.zIndex }]}
+                  />
+                )
+            )}
+          </View>
+        </View>
         <View style={styles.tabContainer}>
           {['모자', '얼굴', '상의', '하의', '손', '피부'].map((tab, index) => (
             <Tab key={index} isActive={currentTab === index} onPress={() => handlePressTab(index)}>
@@ -135,6 +167,27 @@ export default function AvatarScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  headerContainer: {
+    height: 115,
+    // width: '100%',
+    backgroundColor: COLORS.ORANGE_200,
+    alignItems: 'center',
+    position: 'relative',
+    marginBottom: 115,
+  },
+  avatarContainer: {
+    width: 220,
+    height: 220,
+    borderRadius: 220,
+    borderWidth: 1,
+    backgroundColor: COLORS.WHITE,
+    borderColor: COLORS.GRAY_200,
+  },
+  avatar: {
+    width: 220,
+    height: 220,
+    position: 'absolute',
   },
   tabContainer: {
     flexDirection: 'row',
