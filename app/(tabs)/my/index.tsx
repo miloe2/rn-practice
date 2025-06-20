@@ -9,6 +9,7 @@ import Tab from '@/components/Tab';
 import CustomButton from '@/components/CustomButton';
 import MyFeedList from '@/components/MyFeedList';
 import LikedFeedList from '@/components/LikedFeedList';
+import { router } from 'expo-router';
 
 export default function MyScreen() {
   const { auth } = useAuth();
@@ -33,7 +34,9 @@ export default function MyScreen() {
           size="medium"
           label="프로필 편집"
           variant="outline"
-          onPress={() => {}}
+          onPress={() => {
+            router.push('/profile/update');
+          }}
           style={{ position: 'absolute', right: 16, bottom: 16 }}
         />
       </View>
