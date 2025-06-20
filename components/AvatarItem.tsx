@@ -1,8 +1,8 @@
-import { Dimensions, Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, Image, Pressable, PressableProps, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import { BASE_URL } from '@/api/axios';
 import { COLORS } from '@/constants';
-interface AvatarItemProps {
+interface AvatarItemProps extends PressableProps {
   uri: string;
   isSelected: boolean;
 }

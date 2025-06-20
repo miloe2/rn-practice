@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
 import { COLORS } from '@/constants';
+import { BASE_URL } from '@/api/axios';
 
 interface ProfileProps {
   onPress: () => void;
@@ -21,7 +22,11 @@ const Profile = ({ onPress, imageUri, nickname, createdAt, option }: ProfileProp
     <View style={styles.container}>
       <Pressable style={styles.pressContainer} onPress={onPress}>
         <Image
-          source={imageUri ? imageUri : require('@/assets/images/react-logo.png')}
+          source={
+            imageUri
+              ? { uri: `${BASE_URL}/${imageUri}` }
+              : require('@/assets/images/react-logo.png')
+          }
           style={styles.avatar}
         />
         <View style={{ gap: 4 }}>
