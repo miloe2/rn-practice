@@ -20,6 +20,7 @@ function LoginScreen() {
       password: '',
     },
   });
+  console.log('expoPushToken', expoPushToken);
 
   const onSubmit = (formValue: FormValue) => {
     loginMutation.mutate({ ...formValue, expoPushToken });
