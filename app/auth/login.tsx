@@ -1,23 +1,28 @@
 import { View, Text, SafeAreaView, Image, StyleSheet } from 'react-native';
 import React from 'react';
-import InputField from '@/components/InputField';
-import { router } from 'expo-router';
 import FixedBottomCTA from '@/components/FixedBottomCTA';
 import { FormProvider, useForm } from 'react-hook-form';
 import CustomInput from '@/components/CustomInput';
 import useAuth from '@/hooks/queries/useAuth';
+import usePushNotification from '@/hooks/usePushNotification';
 
-const LoginScreen = () => {
+type FormValue = {
+  email: string;
+  password: string;
+};
+
+function LoginScreen() {
   const { loginMutation } = useAuth();
-  const loginForm = useForm({
+  const { expoPushToken } = usePushNotification();
+  const loginForm = useForm<FormValue>({
     defaultValues: {
       email: '',
       password: '',
     },
   });
 
-  const onSubmit = ({ email, password }: { email: string; password: string }) => {
-    loginMutation.mutate({ email, password });
+  const onSubmit = (formValue: FormValue) => {
+    loginMutation.mutate({ ...formValue, expoPushToken });
   };
   return (
     <FormProvider {...loginForm}>
@@ -48,7 +53,7 @@ const LoginScreen = () => {
           placeholder="비밀번호를 입력해주세요"
           secureTextEntry
           submitBehavior="blurAndSubmit"
-          returnKeyType='send'
+          returnKeyType="send"
           onSubmitEditing={loginForm.handleSubmit(onSubmit)}
           // rules={{
           //   validate: (data) => {
@@ -66,6 +71,6 @@ const LoginScreen = () => {
       />
     </FormProvider>
   );
-};
+}
 
 export default LoginScreen;
