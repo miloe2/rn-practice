@@ -10,14 +10,14 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "dev.expo.rn_practiceapp"
+      "bundleIdentifier": "dev.expo.rnpractice"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "dev.expo.rn_practiceapp",
+      "package": "dev.expo.rnpractice",
       "googleServicesFile": "./google-services.json",
       "permissions": ["android.permission.RECORD_AUDIO"]
     },
